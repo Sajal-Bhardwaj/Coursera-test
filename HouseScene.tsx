@@ -509,13 +509,13 @@ const STATES = {
 }
 
 /**
- * @framerSupportedLayoutWidth fixed
- * @framerSupportedLayoutHeight fixed
+ * @framerSupportedLayoutWidth any-prefer-fixed
+ * @framerSupportedLayoutHeight auto
  * @framerIntrinsicWidth 720
  * @framerIntrinsicHeight 450
  */
 export default function HouseScene(props) {
-    const { kind = "explore", poster1, poster2, label1, label2, groupLabel, drag, radius, style } = props
+    const { kind = "explore", poster1, poster2, label1, label2, groupLabel, drag, radius = "18px", ratio = 1.6, style } = props
     const posters = [poster1?.src, poster2?.src]
     const labels = [label1, label2]
     const modes = STATES[kind] || STATES.explore
@@ -564,7 +564,7 @@ export default function HouseScene(props) {
     const pill = { position: "absolute", background: "rgba(255,255,255,.86)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", borderRadius: 99 }
     return (
         <div ref={wrap} onPointerMove={onMove} onPointerLeave={() => { ctl.current.tilt = 0 }}
-            style={{ ...style, position: "relative", width: "100%", height: "100%", minHeight: 200, overflow: "hidden", borderRadius: radius, background: "#F3F4F6" }}>
+            style={{ width: "100%", aspectRatio: String(ratio || 1.6), ...style, position: "relative", overflow: "hidden", borderRadius: radius, background: "#F3F4F6" }}>
             {posters[mode] || posters[0] ? (
                 <img src={posters[mode] || posters[0]} alt={props.alt || "3D model of the house"} loading="lazy"
                     style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: live ? 0 : 1, transition: "opacity .5s ease" }} />
@@ -599,5 +599,6 @@ addPropertyControls(HouseScene, {
     groupLabel: { type: ControlType.String, title: "Toggle name", defaultValue: "View", hidden: (p) => p.kind === "hero" },
     alt: { type: ControlType.String, title: "Alt text", defaultValue: "3D model of the house" },
     drag: { type: ControlType.Boolean, title: "Drag to turn", defaultValue: false },
-    radius: { type: ControlType.Number, title: "Radius", defaultValue: 0, min: 0, max: 48 },
+    ratio: { type: ControlType.Number, title: "Ratio", defaultValue: 1.6, min: 0.5, max: 3, step: 0.01 },
+    radius: { type: ControlType.String, title: "Radius", defaultValue: "18px" },
 })
