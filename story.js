@@ -480,6 +480,7 @@ function fitCam(cam, f, opts = {}) {
 export function enhanceStory(root, opts = {}) {
   if (!root) return () => {};
   if (!opts.static) root.classList.add('st-js');
+  root.querySelectorAll('video').forEach((v) => { v.muted = true; v.playsInline = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); });
   const scrollRoot = opts.scrollRoot || null;
   const reduce = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cleanups = [];
