@@ -45,8 +45,9 @@ const STORY_CSS = `
 .st-bar i{width:10px;height:10px;border-radius:50%;background:#E4E4E7}
 .st-bar i:nth-child(1){background:#FF5F57}.st-bar i:nth-child(2){background:#FEBC2E}.st-bar i:nth-child(3){background:#28C840}
 .st-bar span{margin-left:auto;margin-right:auto;width:min(46%,320px);height:18px;border-radius:6px;background:#EAEAEC}
+.st-phone video,.st-frame video,.st-fig video{display:block;width:100%;height:auto}
 .st-phone{width:min(300px,78%);margin:0 auto;border-radius:44px;background:#141416;padding:10px;box-shadow:0 40px 80px -40px rgba(12,14,19,.55)}
-.st-phone img{display:block;width:100%;border-radius:34px}
+.st-phone img,.st-phone video{display:block;width:100%;border-radius:34px}
 .st-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .st-pair.three{grid-template-columns:repeat(3,1fr)}
 /* cards */
@@ -388,7 +389,7 @@ function block(b, img) {
     case 'note':
       return `<div class="${cls} tight"><span class="st-note">${b.text}</span></div>`;
     case 'media': {
-      const inner = b.frame === 'phone' ? `<img src="${esc(img(b.img))}" alt="${esc(strip(b.cap))}" loading="lazy">` : `<img src="${esc(img(b.img))}" alt="${esc(strip(b.cap))}" loading="lazy">`;
+      const inner = b.vid ? `<video src="${esc(img(b.vid))}" poster="${esc(img(b.img))}" autoplay muted loop playsinline preload="metadata" aria-label="${esc(strip(b.cap))}"></video>` : `<img src="${esc(img(b.img))}" alt="${esc(strip(b.cap))}" loading="lazy">`;
       return `<figure class="${cls} st-fig" data-in>${frameWrap(inner, b.frame, b.bg)}${b.cap ? `<figcaption>${b.cap}</figcaption>` : ''}</figure>`;
     }
     case 'pair':
