@@ -200,9 +200,9 @@ export const STORY_CSS = `
 .st-note{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--st-ink2);padding:6px 12px;border:1px solid var(--st-line);border-radius:99px;background:var(--st-surf)}
 .st-note::before{content:"";width:7px;height:7px;border-radius:50%;background:#E8A21A}
 /* reveal */
-.st [data-in]{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
-.st [data-in].in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.st [data-in]{opacity:1;transform:none;transition:none}.st-cam .lay{transition:none}}
+.st.st-js [data-in]{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+.st.st-js [data-in].in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.st.st-js [data-in]{opacity:1;transform:none;transition:none}.st-cam .lay{transition:none}}
 @media (max-width:860px){
  .st-tldr,.st-cards,.st-lessons{grid-template-columns:1fr}
  .st-pair,.st-pair.three{grid-template-columns:1fr}
@@ -478,6 +478,7 @@ function fitCam(cam, f, opts = {}) {
 
 export function enhanceStory(root, opts = {}) {
   if (!root) return () => {};
+  if (!opts.static) root.classList.add('st-js');
   const scrollRoot = opts.scrollRoot || null;
   const reduce = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cleanups = [];
